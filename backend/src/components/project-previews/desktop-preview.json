@@ -1,0 +1,22 @@
+{
+  "collectionName": "components_project_previews_desktop_previews",
+  "info": {
+    "displayName": "Desktop Preview"
+  },
+  "options": {},
+  "attributes": {
+    "Label": {
+      "type": "string",
+      "required": true,
+      "unique": true
+    },
+    "Preview": {
+      "allowedTypes": [
+        "images"
+      ],
+      "type": "media",
+      "multiple": false,
+      "required": true
+    }
+  }
+}
