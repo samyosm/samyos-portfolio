@@ -22,6 +22,10 @@ body {
   h2 {
     @apply text-xl;
   }
+
+  ul {
+    @apply flex flex-col gap-0.5 list-disc ml-5;
+  }
 }
 
 @layer components {
@@ -59,6 +63,16 @@ body {
 
   .project p {
     @apply line-clamp-3;
+  }
+
+  /* Project Details */
+
+  .project-details {
+    @apply flex flex-col p-8 gap-8 mx-auto w-full max-w-5xl;
+  }
+
+  .project-details article {
+    @apply flex flex-col gap-3;
   }
 
 }
