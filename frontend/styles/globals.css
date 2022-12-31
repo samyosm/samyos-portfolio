@@ -3,9 +3,62 @@
 @tailwind utilities;
 
 html,
-body,
-body>div {
+body {
   max-width: 100vw;
+  min-height: 100vh;
   padding: 0;
   margin: 0;
+}
+
+.main {
+  @apply flex flex-col w-screen h-screen md:flex-row bg-stone-100;
+}
+
+
+@layer base {
+  h1 {
+    @apply text-2xl;
+  }
+  h2 {
+    @apply text-xl;
+  }
+}
+
+@layer components {
+  /* Nav */
+  .nav-card {
+    @apply flex h-fit flex-col w-full md:max-w-xs md:h-full p-5 gap-5 bg-stone-200;
+  }
+
+  .nav-header {
+    @apply flex justify-between text-2xl items-center p-2;
+  }
+
+  .nav-body {
+    @apply h-full flex flex-col gap-1;
+  }
+  .nav-item {
+    @apply w-full flex items-center gap-2 p-4 rounded hover:bg-stone-300;
+  }
+  .nav-item.selected {
+    @apply bg-stone-300;
+  }
+
+  .nav-send-message {
+    @apply w-full h-full bg-stone-300 p-4 rounded hover:bg-stone-400;
+  }
+
+  /* Projects */
+  .projects {
+    @apply flex flex-col p-8 gap-8 mx-auto w-full max-w-5xl;
+  }
+
+  .project {
+    @apply flex flex-col gap-3 bg-stone-200 p-8 rounded-lg;
+  }
+
+  .project p {
+    @apply line-clamp-3;
+  }
+
 }
