@@ -14,7 +14,7 @@ export const Sidebar = () => {
   return (
     <nav className="sidebar">
       <div className="sidebar-header">
-        <h1>SamyOs</h1>
+        <h2>SamyOs</h2>
         <If condition={maximized}>
           <Then>
             <SidebarTop

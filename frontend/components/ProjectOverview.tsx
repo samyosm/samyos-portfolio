@@ -1,7 +1,7 @@
 // @flow
 import * as React from 'react';
 import {Project} from "../types/Project";
-import {If, Then, When} from "react-if";
+import {When} from "react-if";
 import Image from "next/image"
 import Link from "next/link";
 
@@ -11,7 +11,7 @@ type Props = {
 export const ProjectOverview = ({project}: Props) => {
   const imageSrc = "http://localhost:1337" + project.cover?.data?.attributes.url;
   return (
-    <Link href={"/" + project.seoUrl} className="project-overview">
+    <Link href={"/project/" + project.seoUrl} className="project-overview">
       <When condition={project.cover?.data !== null}>
         <Image
           alt={project.title}
@@ -22,7 +22,7 @@ export const ProjectOverview = ({project}: Props) => {
         />
       </When>
       <div className="project-overview-info">
-        <h1>{project.title}</h1>
+        <h2>{project.title}</h2>
         <p>{project.overview}</p>
       </div>
     </Link>

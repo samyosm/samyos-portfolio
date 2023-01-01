@@ -30,8 +30,8 @@ export default function Home({projects}: {projects: Project[]}) {
 
         <Sidebar />
 
-        <div className="projects">
-          <h3>Projects</h3>
+        <div className="main-body">
+          <h4>Projects</h4>
           {projects.map((project) => <ProjectOverview key={project.seoUrl} project={project}/>)}
         </div>
 
