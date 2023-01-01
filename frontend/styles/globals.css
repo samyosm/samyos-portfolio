@@ -10,10 +10,51 @@ body {
   margin: 0;
 }
 
-.main {
-  @apply flex flex-col w-screen h-screen md:flex-row bg-stone-100;
-}
+@layer components {
+  .main {
+    @apply bg-nord4 w-full h-full min-h-screen p-7 flex flex-col lg:flex-row;
+  }
 
+  .sidebar {
+    @apply w-full lg:max-w-sm bg-nord1 p-5 rounded-3xl text-nord6 text-2xl flex flex-col gap-7;
+  }
+  .sidebar-header {
+    @apply flex justify-between;
+  }
+  .sidebar-header svg {
+    @apply cursor-pointer lg:hidden; /* TODO: Make it filled when hovered over */
+  }
+
+  .sidebar-body {
+    @apply flex flex-col gap-2 lg:!flex;
+  }
+  .sidebar-item {
+    @apply flex w-full gap-2 items-center text-xl p-3 rounded-2xl;
+  }
+  .sidebar-item-active, .sidebar-item:hover {
+    @apply bg-nord0 outline-2 outline outline-nord4;
+  }
+
+  /* Projects */
+  .projects {
+    @apply flex flex-col gap-5 mt-7 lg:mt-3 lg:mx-auto lg:pl-5 lg:max-w-4xl;
+  }
+
+  .project-overview {
+    @apply flex flex-col bg-nord6 p-5 rounded-3xl gap-3 lg:flex-row;
+  }
+  .project-overview img {
+    @apply rounded-2xl w-full max-w-[500px] mx-auto lg:min-w-[318px] lg:max-w-[318px];
+  }
+  .project-overview-info {
+    @apply flex flex-col gap-3;
+  }
+  .project-overview-info p {
+    @apply line-clamp-5;
+  }
+
+
+}
 
 @layer base {
   h1 {
@@ -22,57 +63,7 @@ body {
   h2 {
     @apply text-xl;
   }
-
-  ul {
-    @apply flex flex-col gap-0.5 list-disc ml-5;
+  h3 {
+    @apply text-nord0;
   }
-}
-
-@layer components {
-  /* Nav */
-  .nav-card {
-    @apply flex h-fit flex-col w-full md:max-w-xs md:h-full p-5 gap-5 bg-stone-200;
-  }
-
-  .nav-header {
-    @apply flex justify-between text-2xl items-center p-2;
-  }
-
-  .nav-body {
-    @apply h-full flex flex-col gap-1;
-  }
-  .nav-item {
-    @apply w-full flex items-center gap-2 p-4 rounded hover:bg-stone-300;
-  }
-  .nav-item.selected {
-    @apply bg-stone-300;
-  }
-
-  .nav-send-message {
-    @apply w-full h-full bg-stone-300 p-4 rounded hover:bg-stone-400;
-  }
-
-  /* Projects */
-  .projects {
-    @apply flex flex-col p-8 gap-8 mx-auto w-full max-w-5xl;
-  }
-
-  .project {
-    @apply flex flex-col gap-3 bg-stone-200 p-8 rounded-lg;
-  }
-
-  .project p {
-    @apply line-clamp-3;
-  }
-
-  /* Project Details */
-
-  .project-details {
-    @apply flex flex-col p-8 gap-8 mx-auto w-full max-w-5xl;
-  }
-
-  .project-details article {
-    @apply flex flex-col gap-3;
-  }
-
 }

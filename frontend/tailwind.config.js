@@ -5,9 +5,9 @@ module.exports = {
     "./components/**/*.{js,ts,jsx,tsx}",
   ],
   theme: {
-    extend: {},
   },
   plugins: [
-      require("@tailwindcss/line-clamp")
+      require("@tailwindcss/line-clamp"),
+      require('tailwind-nord'),
   ],
 }
