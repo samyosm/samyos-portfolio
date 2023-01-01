@@ -1,22 +1,23 @@
 {
   "collectionName": "components_project_previews_mobile_previews",
   "info": {
-    "displayName": "Mobile Preview"
+    "displayName": "Mobile Preview",
+    "description": ""
   },
   "options": {},
   "attributes": {
-    "Label": {
+    "label": {
       "type": "string",
       "required": true,
       "unique": true
     },
-    "Preview": {
-      "allowedTypes": [
-        "images"
-      ],
+    "preview": {
       "type": "media",
       "multiple": false,
-      "required": true
+      "required": true,
+      "allowedTypes": [
+        "images"
+      ]
     }
   }
 }

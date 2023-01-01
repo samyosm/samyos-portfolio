@@ -41,7 +41,7 @@ body {
   }
 
   .project-overview {
-    @apply flex flex-col bg-nord6 p-5 rounded-3xl gap-3 lg:flex-row;
+    @apply flex flex-col bg-gradient-to-b from-nord6 via-nord5 to-nord6 p-5 rounded-3xl gap-3 lg:flex-row shadow-xl shadow-nord10/20;
   }
   .project-overview img {
     @apply rounded-2xl w-full max-w-[500px] mx-auto lg:min-w-[318px] lg:max-w-[318px];
