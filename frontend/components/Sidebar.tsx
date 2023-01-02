@@ -7,7 +7,11 @@ import {
 import { Else, If, Then } from 'react-if';
 import SidebarItem from './SidebarItem';
 
-export default function Sidebar() {
+type Props = {
+  activeLabel: string,
+};
+
+export default function Sidebar({ activeLabel }: Props) {
   const [maximized, setMaximized] = useState(false);
 
   const handleClick = () => {
@@ -39,9 +43,14 @@ export default function Sidebar() {
 
       </div>
       <div className={`sidebar-body ${!maximized && 'hidden'}`}>
-        <SidebarItem active href="/" label="Projects" icon={<Box size="32" color="#eceff4" />} />
-        <SidebarItem href="/about" label="About" icon={<Personalcard size="32" color="#eceff4" />} />
-        <SidebarItem href="/blog" label="Blog" icon={<MenuBoard size="32" color="#eceff4" />} />
+        <SidebarItem activeLabel={activeLabel} href="/" label="Projects" icon={<Box size="32" color="#eceff4" />} />
+        <SidebarItem
+          activeLabel={activeLabel}
+          href="/about"
+          label="About"
+          icon={<Personalcard size="32" color="#eceff4" />}
+        />
+        <SidebarItem activeLabel={activeLabel} href="/blog" label="Blog" icon={<MenuBoard size="32" color="#eceff4" />} />
       </div>
     </nav>
   );

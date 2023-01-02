@@ -1,10 +1,9 @@
-import { type GraphQLClient } from 'graphql-request';
-import type * as Dom from 'graphql-request/dist/types.dom';
+import { GraphQLClient } from 'graphql-request';
+import * as Dom from 'graphql-request/dist/types.dom';
 import gql from 'graphql-tag';
-
-export type Maybe<T> = T | undefined;
+export type Maybe<T> = T | null;
 export type InputMaybe<T> = Maybe<T>;
-export type Exact<T extends Record<string, unknown>> = { [K in keyof T]: T[K] };
+export type Exact<T extends { [key: string]: unknown }> = { [K in keyof T]: T[K] };
 export type MakeOptional<T, K extends keyof T> = Omit<T, K> & { [SubKey in K]?: Maybe<T[SubKey]> };
 export type MakeMaybe<T, K extends keyof T> = Omit<T, K> & { [SubKey in K]: Maybe<T[SubKey]> };
 /** All built-in and custom scalars, mapped to their actual values */
@@ -18,6 +17,42 @@ export type Scalars = {
   I18NLocaleCode: any;
   JSON: any;
   Upload: any;
+};
+
+export type AboutMe = {
+  __typename?: 'AboutMe';
+  body: Scalars['String'];
+  createdAt?: Maybe<Scalars['DateTime']>;
+  locale?: Maybe<Scalars['String']>;
+  localizations?: Maybe<AboutMeRelationResponseCollection>;
+  publishedAt?: Maybe<Scalars['DateTime']>;
+  updatedAt?: Maybe<Scalars['DateTime']>;
+};
+
+
+export type AboutMeLocalizationsArgs = {
+  publicationState?: InputMaybe<PublicationState>;
+};
+
+export type AboutMeEntity = {
+  __typename?: 'AboutMeEntity';
+  attributes?: Maybe<AboutMe>;
+  id?: Maybe<Scalars['ID']>;
+};
+
+export type AboutMeEntityResponse = {
+  __typename?: 'AboutMeEntityResponse';
+  data?: Maybe<AboutMeEntity>;
+};
+
+export type AboutMeInput = {
+  body?: InputMaybe<Scalars['String']>;
+  publishedAt?: InputMaybe<Scalars['DateTime']>;
+};
+
+export type AboutMeRelationResponseCollection = {
+  __typename?: 'AboutMeRelationResponseCollection';
+  data: Array<AboutMeEntity>;
 };
 
 export type BooleanFilterInput = {
@@ -42,20 +77,6 @@ export type BooleanFilterInput = {
   null?: InputMaybe<Scalars['Boolean']>;
   or?: InputMaybe<Array<InputMaybe<Scalars['Boolean']>>>;
   startsWith?: InputMaybe<Scalars['Boolean']>;
-};
-
-export type ComponentProjectPreviewsDesktopPreview = {
-  __typename?: 'ComponentProjectPreviewsDesktopPreview';
-  id: Scalars['ID'];
-  label: Scalars['String'];
-  preview: UploadFileEntityResponse;
-};
-
-export type ComponentProjectPreviewsMobilePreview = {
-  __typename?: 'ComponentProjectPreviewsMobilePreview';
-  id: Scalars['ID'];
-  label: Scalars['String'];
-  preview: UploadFileEntityResponse;
 };
 
 export type ComponentSharedMetaSocial = {
@@ -90,6 +111,7 @@ export type ComponentSharedSeo = {
   structuredData?: Maybe<Scalars['JSON']>;
 };
 
+
 export type ComponentSharedSeoMetaSocialArgs = {
   filters?: InputMaybe<ComponentSharedMetaSocialFiltersInput>;
   pagination?: InputMaybe<PaginationArg>;
@@ -122,7 +144,7 @@ export type DateTimeFilterInput = {
 
 export enum Enum_Componentsharedmetasocial_Socialnetwork {
   Facebook = 'Facebook',
-  Twitter = 'Twitter',
+  Twitter = 'Twitter'
 }
 
 export type FileInfoInput = {
@@ -155,18 +177,7 @@ export type FloatFilterInput = {
   startsWith?: InputMaybe<Scalars['Float']>;
 };
 
-export type GenericMorph =
-  ComponentProjectPreviewsDesktopPreview
-  | ComponentProjectPreviewsMobilePreview
-  | ComponentSharedMetaSocial
-  | ComponentSharedSeo
-  | I18NLocale
-  | Project
-  | UploadFile
-  | UploadFolder
-  | UsersPermissionsPermission
-  | UsersPermissionsRole
-  | UsersPermissionsUser;
+export type GenericMorph = AboutMe | ComponentSharedMetaSocial | ComponentSharedSeo | I18NLocale | Project | UploadFile | UploadFolder | UsersPermissionsPermission | UsersPermissionsRole | UsersPermissionsUser;
 
 export type I18NLocale = {
   __typename?: 'I18NLocale';
@@ -189,7 +200,7 @@ export type I18NLocaleEntityResponse = {
 
 export type I18NLocaleEntityResponseCollection = {
   __typename?: 'I18NLocaleEntityResponseCollection';
-  data: I18NLocaleEntity[];
+  data: Array<I18NLocaleEntity>;
   meta: ResponseCollectionMeta;
 };
 
@@ -279,12 +290,14 @@ export type JsonFilterInput = {
 export type Mutation = {
   __typename?: 'Mutation';
   changePassword?: Maybe<UsersPermissionsLoginPayload>;
+  createAboutMeLocalization?: Maybe<AboutMeEntityResponse>;
   createProject?: Maybe<ProjectEntityResponse>;
   createProjectLocalization?: Maybe<ProjectEntityResponse>;
   createUploadFile?: Maybe<UploadFileEntityResponse>;
   createUploadFolder?: Maybe<UploadFolderEntityResponse>;
   createUsersPermissionsRole?: Maybe<UsersPermissionsCreateRolePayload>;
   createUsersPermissionsUser: UsersPermissionsUserEntityResponse;
+  deleteAboutMe?: Maybe<AboutMeEntityResponse>;
   deleteProject?: Maybe<ProjectEntityResponse>;
   deleteUploadFile?: Maybe<UploadFileEntityResponse>;
   deleteUploadFolder?: Maybe<UploadFolderEntityResponse>;
@@ -297,6 +310,7 @@ export type Mutation = {
   register: UsersPermissionsLoginPayload;
   removeFile?: Maybe<UploadFileEntityResponse>;
   resetPassword?: Maybe<UsersPermissionsLoginPayload>;
+  updateAboutMe?: Maybe<AboutMeEntityResponse>;
   updateFileInfo: UploadFileEntityResponse;
   updateProject?: Maybe<ProjectEntityResponse>;
   updateUploadFile?: Maybe<UploadFileEntityResponse>;
@@ -306,16 +320,26 @@ export type Mutation = {
   upload: UploadFileEntityResponse;
 };
 
+
 export type MutationChangePasswordArgs = {
   currentPassword: Scalars['String'];
   password: Scalars['String'];
   passwordConfirmation: Scalars['String'];
 };
 
+
+export type MutationCreateAboutMeLocalizationArgs = {
+  data?: InputMaybe<AboutMeInput>;
+  id?: InputMaybe<Scalars['ID']>;
+  locale?: InputMaybe<Scalars['I18NLocaleCode']>;
+};
+
+
 export type MutationCreateProjectArgs = {
   data: ProjectInput;
   locale?: InputMaybe<Scalars['I18NLocaleCode']>;
 };
+
 
 export type MutationCreateProjectLocalizationArgs = {
   data?: InputMaybe<ProjectInput>;
@@ -323,54 +347,72 @@ export type MutationCreateProjectLocalizationArgs = {
   locale?: InputMaybe<Scalars['I18NLocaleCode']>;
 };
 
+
 export type MutationCreateUploadFileArgs = {
   data: UploadFileInput;
 };
+
 
 export type MutationCreateUploadFolderArgs = {
   data: UploadFolderInput;
 };
 
+
 export type MutationCreateUsersPermissionsRoleArgs = {
   data: UsersPermissionsRoleInput;
 };
 
+
 export type MutationCreateUsersPermissionsUserArgs = {
   data: UsersPermissionsUserInput;
 };
+
+
+export type MutationDeleteAboutMeArgs = {
+  locale?: InputMaybe<Scalars['I18NLocaleCode']>;
+};
+
 
 export type MutationDeleteProjectArgs = {
   id: Scalars['ID'];
   locale?: InputMaybe<Scalars['I18NLocaleCode']>;
 };
 
+
 export type MutationDeleteUploadFileArgs = {
   id: Scalars['ID'];
 };
+
 
 export type MutationDeleteUploadFolderArgs = {
   id: Scalars['ID'];
 };
 
+
 export type MutationDeleteUsersPermissionsRoleArgs = {
   id: Scalars['ID'];
 };
+
 
 export type MutationDeleteUsersPermissionsUserArgs = {
   id: Scalars['ID'];
 };
 
+
 export type MutationEmailConfirmationArgs = {
   confirmation: Scalars['String'];
 };
+
 
 export type MutationForgotPasswordArgs = {
   email: Scalars['String'];
 };
 
+
 export type MutationLoginArgs = {
   input: UsersPermissionsLoginInput;
 };
+
 
 export type MutationMultipleUploadArgs = {
   field?: InputMaybe<Scalars['String']>;
@@ -379,13 +421,16 @@ export type MutationMultipleUploadArgs = {
   refId?: InputMaybe<Scalars['ID']>;
 };
 
+
 export type MutationRegisterArgs = {
   input: UsersPermissionsRegisterInput;
 };
 
+
 export type MutationRemoveFileArgs = {
   id: Scalars['ID'];
 };
+
 
 export type MutationResetPasswordArgs = {
   code: Scalars['String'];
@@ -393,10 +438,18 @@ export type MutationResetPasswordArgs = {
   passwordConfirmation: Scalars['String'];
 };
 
+
+export type MutationUpdateAboutMeArgs = {
+  data: AboutMeInput;
+  locale?: InputMaybe<Scalars['I18NLocaleCode']>;
+};
+
+
 export type MutationUpdateFileInfoArgs = {
   id: Scalars['ID'];
   info?: InputMaybe<FileInfoInput>;
 };
+
 
 export type MutationUpdateProjectArgs = {
   data: ProjectInput;
@@ -404,25 +457,30 @@ export type MutationUpdateProjectArgs = {
   locale?: InputMaybe<Scalars['I18NLocaleCode']>;
 };
 
+
 export type MutationUpdateUploadFileArgs = {
   data: UploadFileInput;
   id: Scalars['ID'];
 };
+
 
 export type MutationUpdateUploadFolderArgs = {
   data: UploadFolderInput;
   id: Scalars['ID'];
 };
 
+
 export type MutationUpdateUsersPermissionsRoleArgs = {
   data: UsersPermissionsRoleInput;
   id: Scalars['ID'];
 };
 
+
 export type MutationUpdateUsersPermissionsUserArgs = {
   data: UsersPermissionsUserInput;
   id: Scalars['ID'];
 };
+
 
 export type MutationUploadArgs = {
   field?: InputMaybe<Scalars['String']>;
@@ -461,6 +519,7 @@ export type Project = {
   updatedAt?: Maybe<Scalars['DateTime']>;
 };
 
+
 export type ProjectLocalizationsArgs = {
   filters?: InputMaybe<ProjectFiltersInput>;
   pagination?: InputMaybe<PaginationArg>;
@@ -481,7 +540,7 @@ export type ProjectEntityResponse = {
 
 export type ProjectEntityResponseCollection = {
   __typename?: 'ProjectEntityResponseCollection';
-  data: ProjectEntity[];
+  data: Array<ProjectEntity>;
   meta: ResponseCollectionMeta;
 };
 
@@ -512,16 +571,17 @@ export type ProjectInput = {
 
 export type ProjectRelationResponseCollection = {
   __typename?: 'ProjectRelationResponseCollection';
-  data: ProjectEntity[];
+  data: Array<ProjectEntity>;
 };
 
 export enum PublicationState {
   Live = 'LIVE',
-  Preview = 'PREVIEW',
+  Preview = 'PREVIEW'
 }
 
 export type Query = {
   __typename?: 'Query';
+  aboutMe?: Maybe<AboutMeEntityResponse>;
   i18NLocale?: Maybe<I18NLocaleEntityResponse>;
   i18NLocales?: Maybe<I18NLocaleEntityResponseCollection>;
   me?: Maybe<UsersPermissionsMe>;
@@ -537,9 +597,17 @@ export type Query = {
   usersPermissionsUsers?: Maybe<UsersPermissionsUserEntityResponseCollection>;
 };
 
+
+export type QueryAboutMeArgs = {
+  locale?: InputMaybe<Scalars['I18NLocaleCode']>;
+  publicationState?: InputMaybe<PublicationState>;
+};
+
+
 export type QueryI18NLocaleArgs = {
   id?: InputMaybe<Scalars['ID']>;
 };
+
 
 export type QueryI18NLocalesArgs = {
   filters?: InputMaybe<I18NLocaleFiltersInput>;
@@ -547,10 +615,12 @@ export type QueryI18NLocalesArgs = {
   sort?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
 };
 
+
 export type QueryProjectArgs = {
   id?: InputMaybe<Scalars['ID']>;
   locale?: InputMaybe<Scalars['I18NLocaleCode']>;
 };
+
 
 export type QueryProjectsArgs = {
   filters?: InputMaybe<ProjectFiltersInput>;
@@ -560,9 +630,11 @@ export type QueryProjectsArgs = {
   sort?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
 };
 
+
 export type QueryUploadFileArgs = {
   id?: InputMaybe<Scalars['ID']>;
 };
+
 
 export type QueryUploadFilesArgs = {
   filters?: InputMaybe<UploadFileFiltersInput>;
@@ -570,9 +642,11 @@ export type QueryUploadFilesArgs = {
   sort?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
 };
 
+
 export type QueryUploadFolderArgs = {
   id?: InputMaybe<Scalars['ID']>;
 };
+
 
 export type QueryUploadFoldersArgs = {
   filters?: InputMaybe<UploadFolderFiltersInput>;
@@ -580,9 +654,11 @@ export type QueryUploadFoldersArgs = {
   sort?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
 };
 
+
 export type QueryUsersPermissionsRoleArgs = {
   id?: InputMaybe<Scalars['ID']>;
 };
+
 
 export type QueryUsersPermissionsRolesArgs = {
   filters?: InputMaybe<UsersPermissionsRoleFiltersInput>;
@@ -590,9 +666,11 @@ export type QueryUsersPermissionsRolesArgs = {
   sort?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
 };
 
+
 export type QueryUsersPermissionsUserArgs = {
   id?: InputMaybe<Scalars['ID']>;
 };
+
 
 export type QueryUsersPermissionsUsersArgs = {
   filters?: InputMaybe<UsersPermissionsUserFiltersInput>;
@@ -663,7 +741,7 @@ export type UploadFileEntityResponse = {
 
 export type UploadFileEntityResponseCollection = {
   __typename?: 'UploadFileEntityResponseCollection';
-  data: UploadFileEntity[];
+  data: Array<UploadFileEntity>;
   meta: ResponseCollectionMeta;
 };
 
@@ -713,7 +791,7 @@ export type UploadFileInput = {
 
 export type UploadFileRelationResponseCollection = {
   __typename?: 'UploadFileRelationResponseCollection';
-  data: UploadFileEntity[];
+  data: Array<UploadFileEntity>;
 };
 
 export type UploadFolder = {
@@ -728,11 +806,13 @@ export type UploadFolder = {
   updatedAt?: Maybe<Scalars['DateTime']>;
 };
 
+
 export type UploadFolderChildrenArgs = {
   filters?: InputMaybe<UploadFolderFiltersInput>;
   pagination?: InputMaybe<PaginationArg>;
   sort?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
 };
+
 
 export type UploadFolderFilesArgs = {
   filters?: InputMaybe<UploadFileFiltersInput>;
@@ -753,7 +833,7 @@ export type UploadFolderEntityResponse = {
 
 export type UploadFolderEntityResponseCollection = {
   __typename?: 'UploadFolderEntityResponseCollection';
-  data: UploadFolderEntity[];
+  data: Array<UploadFolderEntity>;
   meta: ResponseCollectionMeta;
 };
 
@@ -783,7 +863,7 @@ export type UploadFolderInput = {
 
 export type UploadFolderRelationResponseCollection = {
   __typename?: 'UploadFolderRelationResponseCollection';
-  data: UploadFolderEntity[];
+  data: Array<UploadFolderEntity>;
 };
 
 export type UsersPermissionsCreateRolePayload = {
@@ -858,7 +938,7 @@ export type UsersPermissionsPermissionFiltersInput = {
 
 export type UsersPermissionsPermissionRelationResponseCollection = {
   __typename?: 'UsersPermissionsPermissionRelationResponseCollection';
-  data: UsersPermissionsPermissionEntity[];
+  data: Array<UsersPermissionsPermissionEntity>;
 };
 
 export type UsersPermissionsRegisterInput = {
@@ -878,11 +958,13 @@ export type UsersPermissionsRole = {
   users?: Maybe<UsersPermissionsUserRelationResponseCollection>;
 };
 
+
 export type UsersPermissionsRolePermissionsArgs = {
   filters?: InputMaybe<UsersPermissionsPermissionFiltersInput>;
   pagination?: InputMaybe<PaginationArg>;
   sort?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
 };
+
 
 export type UsersPermissionsRoleUsersArgs = {
   filters?: InputMaybe<UsersPermissionsUserFiltersInput>;
@@ -903,7 +985,7 @@ export type UsersPermissionsRoleEntityResponse = {
 
 export type UsersPermissionsRoleEntityResponseCollection = {
   __typename?: 'UsersPermissionsRoleEntityResponseCollection';
-  data: UsersPermissionsRoleEntity[];
+  data: Array<UsersPermissionsRoleEntity>;
   meta: ResponseCollectionMeta;
 };
 
@@ -959,7 +1041,7 @@ export type UsersPermissionsUserEntityResponse = {
 
 export type UsersPermissionsUserEntityResponseCollection = {
   __typename?: 'UsersPermissionsUserEntityResponseCollection';
-  data: UsersPermissionsUserEntity[];
+  data: Array<UsersPermissionsUserEntity>;
   meta: ResponseCollectionMeta;
 };
 
@@ -995,93 +1077,116 @@ export type UsersPermissionsUserInput = {
 
 export type UsersPermissionsUserRelationResponseCollection = {
   __typename?: 'UsersPermissionsUserRelationResponseCollection';
-  data: UsersPermissionsUserEntity[];
+  data: Array<UsersPermissionsUserEntity>;
 };
 
 export type GetProjectQueryVariables = Exact<{
   seoUrl: Scalars['String'];
 }>;
 
-export type GetProjectQuery = { __typename?: 'Query'; projects?: { __typename?: 'ProjectEntityResponseCollection'; data: Array<{ __typename?: 'ProjectEntity'; attributes?: { __typename?: 'Project'; seoUrl: string; title: string; details: string; cover?: { __typename?: 'UploadFileEntityResponse'; data?: { __typename?: 'UploadFileEntity'; attributes?: { __typename?: 'UploadFile'; url: string } | undefined } | undefined } | undefined } | undefined }> } | undefined };
 
-export type GetProjectUrlsQueryVariables = Exact<Record<string, never>>;
+export type GetProjectQuery = { __typename?: 'Query', projects?: { __typename?: 'ProjectEntityResponseCollection', data: Array<{ __typename?: 'ProjectEntity', attributes?: { __typename?: 'Project', seoUrl: string, title: string, details: string, cover?: { __typename?: 'UploadFileEntityResponse', data?: { __typename?: 'UploadFileEntity', attributes?: { __typename?: 'UploadFile', url: string } | null } | null } | null } | null }> } | null };
 
-export type GetProjectUrlsQuery = { __typename?: 'Query'; projects?: { __typename?: 'ProjectEntityResponseCollection'; data: Array<{ __typename?: 'ProjectEntity'; attributes?: { __typename?: 'Project'; seoUrl: string } | undefined }> } | undefined };
+export type GetProjectUrlsQueryVariables = Exact<{ [key: string]: never; }>;
 
-export type GetProjectsQueryVariables = Exact<Record<string, never>>;
 
-export type GetProjectsQuery = { __typename?: 'Query'; projects?: { __typename?: 'ProjectEntityResponseCollection'; data: Array<{ __typename?: 'ProjectEntity'; id?: string | undefined; attributes?: { __typename?: 'Project'; title: string; details: string; seoUrl: string; overview: string; cover?: { __typename?: 'UploadFileEntityResponse'; data?: { __typename?: 'UploadFileEntity'; attributes?: { __typename?: 'UploadFile'; url: string } | undefined } | undefined } | undefined } | undefined }> } | undefined };
+export type GetProjectUrlsQuery = { __typename?: 'Query', projects?: { __typename?: 'ProjectEntityResponseCollection', data: Array<{ __typename?: 'ProjectEntity', attributes?: { __typename?: 'Project', seoUrl: string } | null }> } | null };
+
+export type GetProjectsQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type GetProjectsQuery = { __typename?: 'Query', projects?: { __typename?: 'ProjectEntityResponseCollection', data: Array<{ __typename?: 'ProjectEntity', id?: string | null, attributes?: { __typename?: 'Project', title: string, details: string, seoUrl: string, overview: string, cover?: { __typename?: 'UploadFileEntityResponse', data?: { __typename?: 'UploadFileEntity', attributes?: { __typename?: 'UploadFile', url: string } | null } | null } | null } | null }> } | null };
+
+export type GetAboutMeQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type GetAboutMeQuery = { __typename?: 'Query', aboutMe?: { __typename?: 'AboutMeEntityResponse', data?: { __typename?: 'AboutMeEntity', attributes?: { __typename?: 'AboutMe', body: string } | null } | null } | null };
+
 
 export const GetProjectDocument = gql`
     query getProject($seoUrl: String!) {
-        projects(filters: {seoUrl: {eq: $seoUrl}}) {
-            data {
-                attributes {
-                    seoUrl
-                    title
-                    details
-                    cover {
-                        data {
-                            attributes {
-                                url
-                            }
-                        }
-                    }
-                }
+  projects(filters: {seoUrl: {eq: $seoUrl}}) {
+    data {
+      attributes {
+        seoUrl
+        title
+        details
+        cover {
+          data {
+            attributes {
+              url
             }
+          }
         }
+      }
     }
-`;
+  }
+}
+    `;
 export const GetProjectUrlsDocument = gql`
     query getProjectUrls {
-        projects {
-            data {
-                attributes {
-                    seoUrl
-                }
-            }
-        }
+  projects {
+    data {
+      attributes {
+        seoUrl
+      }
     }
-`;
+  }
+}
+    `;
 export const GetProjectsDocument = gql`
     query getProjects {
-        projects {
-            data {
-                id
-                attributes {
-                    title
-                    details
-                    seoUrl
-                    overview
-                    cover {
-                        data {
-                            attributes {
-                                url
-                            }
-                        }
-                    }
-                }
+  projects {
+    data {
+      id
+      attributes {
+        title
+        details
+        seoUrl
+        overview
+        cover {
+          data {
+            attributes {
+              url
             }
+          }
         }
+      }
     }
-`;
+  }
+}
+    `;
+export const GetAboutMeDocument = gql`
+    query getAboutMe {
+  aboutMe {
+    data {
+      attributes {
+        body
+      }
+    }
+  }
+}
+    `;
 
-export type SdkFunctionWrapper = <T>(action: (requestHeaders?: Record<string, string>) => Promise<T>, operationName: string, operationType?: string) => Promise<T>;
+export type SdkFunctionWrapper = <T>(action: (requestHeaders?:Record<string, string>) => Promise<T>, operationName: string, operationType?: string) => Promise<T>;
 
-const defaultWrapper: SdkFunctionWrapper = async (action, _operationName, _operationType) => action();
+
+const defaultWrapper: SdkFunctionWrapper = (action, _operationName, _operationType) => action();
 
 export function getSdk(client: GraphQLClient, withWrapper: SdkFunctionWrapper = defaultWrapper) {
   return {
-    async getProject(variables: GetProjectQueryVariables, requestHeaders?: Dom.RequestInit['headers']): Promise<GetProjectQuery> {
-      return withWrapper(async (wrappedRequestHeaders) => client.request<GetProjectQuery>(GetProjectDocument, variables, { ...requestHeaders, ...wrappedRequestHeaders }), 'getProject', 'query');
+    getProject(variables: GetProjectQueryVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<GetProjectQuery> {
+      return withWrapper((wrappedRequestHeaders) => client.request<GetProjectQuery>(GetProjectDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'getProject', 'query');
     },
-    async getProjectUrls(variables?: GetProjectUrlsQueryVariables, requestHeaders?: Dom.RequestInit['headers']): Promise<GetProjectUrlsQuery> {
-      return withWrapper(async (wrappedRequestHeaders) => client.request<GetProjectUrlsQuery>(GetProjectUrlsDocument, variables, { ...requestHeaders, ...wrappedRequestHeaders }), 'getProjectUrls', 'query');
+    getProjectUrls(variables?: GetProjectUrlsQueryVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<GetProjectUrlsQuery> {
+      return withWrapper((wrappedRequestHeaders) => client.request<GetProjectUrlsQuery>(GetProjectUrlsDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'getProjectUrls', 'query');
     },
-    async getProjects(variables?: GetProjectsQueryVariables, requestHeaders?: Dom.RequestInit['headers']): Promise<GetProjectsQuery> {
-      return withWrapper(async (wrappedRequestHeaders) => client.request<GetProjectsQuery>(GetProjectsDocument, variables, { ...requestHeaders, ...wrappedRequestHeaders }), 'getProjects', 'query');
+    getProjects(variables?: GetProjectsQueryVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<GetProjectsQuery> {
+      return withWrapper((wrappedRequestHeaders) => client.request<GetProjectsQuery>(GetProjectsDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'getProjects', 'query');
     },
+    getAboutMe(variables?: GetAboutMeQueryVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<GetAboutMeQuery> {
+      return withWrapper((wrappedRequestHeaders) => client.request<GetAboutMeQuery>(GetAboutMeDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'getAboutMe', 'query');
+    }
   };
 }
-
 export type Sdk = ReturnType<typeof getSdk>;

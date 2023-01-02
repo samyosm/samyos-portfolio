@@ -33,7 +33,7 @@ export default function Home({ projects }: { projects: ProjectEntity[] }) {
       </Head>
       <main className="main">
 
-        <Sidebar />
+        <Sidebar activeLabel="Projects" />
 
         <div className="main-body">
           <h4>Projects</h4>

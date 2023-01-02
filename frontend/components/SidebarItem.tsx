@@ -5,7 +5,7 @@ import Link from 'next/link';
 type Props = {
   label: string;
   icon: React.ReactNode;
-  active?: boolean;
+  activeLabel: string;
   href: string;
 };
 
@@ -13,14 +13,12 @@ export default function SidebarItem({
   label,
   icon,
   href,
-  active,
+  activeLabel,
 }: Props) {
   return (
-    <Link href={href} className={`sidebar-item ${active && 'sidebar-item-active'}`}>
+    <Link href={href} className={`sidebar-item ${(activeLabel === label) && 'sidebar-item-active'}`}>
       {icon}
       <p>{label}</p>
     </Link>
   );
 }
-
-SidebarItem.defaultProps = { active: false };

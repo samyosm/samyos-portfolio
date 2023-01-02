@@ -191,18 +191,6 @@ input JSONFilterInput {
     between: [JSON]
 }
 
-type ComponentProjectPreviewsDesktopPreview {
-    id: ID!
-    label: String!
-    preview: UploadFileEntityResponse!
-}
-
-type ComponentProjectPreviewsMobilePreview {
-    id: ID!
-    label: String!
-    preview: UploadFileEntityResponse!
-}
-
 enum ENUM_COMPONENTSHAREDMETASOCIAL_SOCIALNETWORK {
     Facebook
     Twitter
@@ -240,67 +228,6 @@ type ComponentSharedSeo {
     structuredData: JSON
     metaViewport: String
     canonicalURL: String
-}
-
-input ProjectFiltersInput {
-    id: IDFilterInput
-    title: StringFilterInput
-    details: StringFilterInput
-    seoUrl: StringFilterInput
-    overview: StringFilterInput
-    createdAt: DateTimeFilterInput
-    updatedAt: DateTimeFilterInput
-    publishedAt: DateTimeFilterInput
-    localizations: ProjectFiltersInput
-    locale: StringFilterInput
-    and: [ProjectFiltersInput]
-    or: [ProjectFiltersInput]
-    not: ProjectFiltersInput
-}
-
-input ProjectInput {
-    title: String
-    details: String
-    seoUrl: String
-    overview: String
-    cover: ID
-    publishedAt: DateTime
-}
-
-type Project {
-    title: String!
-    details: String!
-    seoUrl: String!
-    overview: String!
-    cover: UploadFileEntityResponse
-    createdAt: DateTime
-    updatedAt: DateTime
-    publishedAt: DateTime
-    localizations(
-        filters: ProjectFiltersInput
-        pagination: PaginationArg = {}
-        sort: [String] = []
-        publicationState: PublicationState = LIVE
-    ): ProjectRelationResponseCollection
-    locale: String
-}
-
-type ProjectEntity {
-    id: ID
-    attributes: Project
-}
-
-type ProjectEntityResponse {
-    data: ProjectEntity
-}
-
-type ProjectEntityResponseCollection {
-    data: [ProjectEntity!]!
-    meta: ResponseCollectionMeta!
-}
-
-type ProjectRelationResponseCollection {
-    data: [ProjectEntity!]!
 }
 
 input UploadFileFiltersInput {
@@ -618,18 +545,107 @@ type UsersPermissionsUserRelationResponseCollection {
     data: [UsersPermissionsUserEntity!]!
 }
 
+input AboutMeInput {
+    body: String
+    publishedAt: DateTime
+}
+
+type AboutMe {
+    body: String!
+    createdAt: DateTime
+    updatedAt: DateTime
+    publishedAt: DateTime
+    localizations(
+        publicationState: PublicationState = LIVE
+    ): AboutMeRelationResponseCollection
+    locale: String
+}
+
+type AboutMeEntity {
+    id: ID
+    attributes: AboutMe
+}
+
+type AboutMeEntityResponse {
+    data: AboutMeEntity
+}
+
+type AboutMeRelationResponseCollection {
+    data: [AboutMeEntity!]!
+}
+
+input ProjectFiltersInput {
+    id: IDFilterInput
+    title: StringFilterInput
+    details: StringFilterInput
+    seoUrl: StringFilterInput
+    overview: StringFilterInput
+    createdAt: DateTimeFilterInput
+    updatedAt: DateTimeFilterInput
+    publishedAt: DateTimeFilterInput
+    localizations: ProjectFiltersInput
+    locale: StringFilterInput
+    and: [ProjectFiltersInput]
+    or: [ProjectFiltersInput]
+    not: ProjectFiltersInput
+}
+
+input ProjectInput {
+    title: String
+    details: String
+    seoUrl: String
+    overview: String
+    cover: ID
+    publishedAt: DateTime
+}
+
+type Project {
+    title: String!
+    details: String!
+    seoUrl: String!
+    overview: String!
+    cover: UploadFileEntityResponse
+    createdAt: DateTime
+    updatedAt: DateTime
+    publishedAt: DateTime
+    localizations(
+        filters: ProjectFiltersInput
+        pagination: PaginationArg = {}
+        sort: [String] = []
+        publicationState: PublicationState = LIVE
+    ): ProjectRelationResponseCollection
+    locale: String
+}
+
+type ProjectEntity {
+    id: ID
+    attributes: Project
+}
+
+type ProjectEntityResponse {
+    data: ProjectEntity
+}
+
+type ProjectEntityResponseCollection {
+    data: [ProjectEntity!]!
+    meta: ResponseCollectionMeta!
+}
+
+type ProjectRelationResponseCollection {
+    data: [ProjectEntity!]!
+}
+
 union GenericMorph =
-    ComponentProjectPreviewsDesktopPreview
-    | ComponentProjectPreviewsMobilePreview
-    | ComponentSharedMetaSocial
+    ComponentSharedMetaSocial
     | ComponentSharedSeo
-    | Project
     | UploadFile
     | UploadFolder
     | I18NLocale
     | UsersPermissionsPermission
     | UsersPermissionsRole
     | UsersPermissionsUser
+    | AboutMe
+    | Project
 
 input FileInfoInput {
     name: String
@@ -697,14 +713,6 @@ input PaginationArg {
 }
 
 type Query {
-    project(id: ID, locale: I18NLocaleCode): ProjectEntityResponse
-    projects(
-        filters: ProjectFiltersInput
-        pagination: PaginationArg = {}
-        sort: [String] = []
-        publicationState: PublicationState = LIVE
-        locale: I18NLocaleCode
-    ): ProjectEntityResponseCollection
     uploadFile(id: ID): UploadFileEntityResponse
     uploadFiles(
         filters: UploadFileFiltersInput
@@ -735,10 +743,36 @@ type Query {
         pagination: PaginationArg = {}
         sort: [String] = []
     ): UsersPermissionsUserEntityResponseCollection
+    aboutMe(
+        publicationState: PublicationState = LIVE
+        locale: I18NLocaleCode
+    ): AboutMeEntityResponse
+    project(id: ID, locale: I18NLocaleCode): ProjectEntityResponse
+    projects(
+        filters: ProjectFiltersInput
+        pagination: PaginationArg = {}
+        sort: [String] = []
+        publicationState: PublicationState = LIVE
+        locale: I18NLocaleCode
+    ): ProjectEntityResponseCollection
     me: UsersPermissionsMe
 }
 
 type Mutation {
+    createUploadFile(data: UploadFileInput!): UploadFileEntityResponse
+    updateUploadFile(id: ID!, data: UploadFileInput!): UploadFileEntityResponse
+    deleteUploadFile(id: ID!): UploadFileEntityResponse
+    createUploadFolder(data: UploadFolderInput!): UploadFolderEntityResponse
+    updateUploadFolder(
+        id: ID!
+        data: UploadFolderInput!
+    ): UploadFolderEntityResponse
+    deleteUploadFolder(id: ID!): UploadFolderEntityResponse
+    updateAboutMe(
+        data: AboutMeInput!
+        locale: I18NLocaleCode
+    ): AboutMeEntityResponse
+    deleteAboutMe(locale: I18NLocaleCode): AboutMeEntityResponse
     createProject(
         data: ProjectInput!
         locale: I18NLocaleCode
@@ -749,15 +783,6 @@ type Mutation {
         locale: I18NLocaleCode
     ): ProjectEntityResponse
     deleteProject(id: ID!, locale: I18NLocaleCode): ProjectEntityResponse
-    createUploadFile(data: UploadFileInput!): UploadFileEntityResponse
-    updateUploadFile(id: ID!, data: UploadFileInput!): UploadFileEntityResponse
-    deleteUploadFile(id: ID!): UploadFileEntityResponse
-    createUploadFolder(data: UploadFolderInput!): UploadFolderEntityResponse
-    updateUploadFolder(
-        id: ID!
-        data: UploadFolderInput!
-    ): UploadFolderEntityResponse
-    deleteUploadFolder(id: ID!): UploadFolderEntityResponse
     upload(
         refId: ID
         ref: String
@@ -773,6 +798,11 @@ type Mutation {
     ): [UploadFileEntityResponse]!
     updateFileInfo(id: ID!, info: FileInfoInput): UploadFileEntityResponse!
     removeFile(id: ID!): UploadFileEntityResponse
+    createAboutMeLocalization(
+        id: ID
+        data: AboutMeInput
+        locale: I18NLocaleCode
+    ): AboutMeEntityResponse
     createProjectLocalization(
         id: ID
         data: ProjectInput

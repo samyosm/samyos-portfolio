@@ -53,7 +53,7 @@ function ProjectPage({ project }: Props) {
         <title>{project.attributes!.title}</title>
       </Head>
       <main className="main">
-        <Sidebar />
+        <Sidebar activeLabel="Projects" />
         <div className="main-body">
           <h1>{project.attributes!.title}</h1>
           <ProjectCover project={project} />

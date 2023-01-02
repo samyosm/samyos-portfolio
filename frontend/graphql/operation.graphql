@@ -47,3 +47,13 @@ query getProjects {
         }
     }
 }
+
+query getAboutMe {
+    aboutMe {
+        data {
+            attributes {
+                body
+            }
+        }
+    }
+}
