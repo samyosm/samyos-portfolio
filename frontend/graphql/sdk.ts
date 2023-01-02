@@ -156,17 +156,17 @@ export type FloatFilterInput = {
 };
 
 export type GenericMorph =
-  ComponentProjectPreviewsDesktopPreview
-  | ComponentProjectPreviewsMobilePreview
-  | ComponentSharedMetaSocial
-  | ComponentSharedSeo
-  | I18NLocale
-  | Project
-  | UploadFile
-  | UploadFolder
-  | UsersPermissionsPermission
-  | UsersPermissionsRole
-  | UsersPermissionsUser;
+	ComponentProjectPreviewsDesktopPreview
+	| ComponentProjectPreviewsMobilePreview
+	| ComponentSharedMetaSocial
+	| ComponentSharedSeo
+	| I18NLocale
+	| Project
+	| UploadFile
+	| UploadFolder
+	| UsersPermissionsPermission
+	| UsersPermissionsRole
+	| UsersPermissionsUser;
 
 export type I18NLocale = {
 	__typename?: 'I18NLocale';
@@ -1013,57 +1013,57 @@ export type GetProjectsQueryVariables = Exact<Record<string, never>>;
 export type GetProjectsQuery = {__typename?: 'Query'; projects?: {__typename?: 'ProjectEntityResponseCollection'; data: Array<{__typename?: 'ProjectEntity'; id?: string | undefined; attributes?: {__typename?: 'Project'; title: string; details: string; seoUrl: string; overview: string; cover?: {__typename?: 'UploadFileEntityResponse'; data?: {__typename?: 'UploadFileEntity'; attributes?: {__typename?: 'UploadFile'; url: string} | undefined} | undefined} | undefined} | undefined}>} | undefined};
 
 export const GetProjectDocument = gql`
-  query getProject($seoUrl: String!) {
-    projects(filters: {seoUrl: {eq: $seoUrl}}) {
-      data {
-        attributes {
-          seoUrl
-          title
-          details
-          cover {
+    query getProject($seoUrl: String!) {
+        projects(filters: {seoUrl: {eq: $seoUrl}}) {
             data {
-              attributes {
-                url
-              }
+                attributes {
+                    seoUrl
+                    title
+                    details
+                    cover {
+                        data {
+                            attributes {
+                                url
+                            }
+                        }
+                    }
+                }
             }
-          }
         }
-      }
     }
-  }
 `;
 export const GetProjectUrlsDocument = gql`
-  query getProjectUrls {
-    projects {
-      data {
-        attributes {
-          seoUrl
+    query getProjectUrls {
+        projects {
+            data {
+                attributes {
+                    seoUrl
+                }
+            }
         }
-      }
     }
-  }
 `;
 export const GetProjectsDocument = gql`
-  query getProjects {
-    projects {
-      data {
-        id
-        attributes {
-          title
-          details
-          seoUrl
-          overview
-          cover {
+    query getProjects {
+        projects {
             data {
-              attributes {
-                url
-              }
+                id
+                attributes {
+                    title
+                    details
+                    seoUrl
+                    overview
+                    cover {
+                        data {
+                            attributes {
+                                url
+                            }
+                        }
+                    }
+                }
             }
-          }
         }
-      }
     }
-  }
 `;
 
 export type SdkFunctionWrapper = <T>(action: (requestHeaders?: Record<string, string>) => Promise<T>, operationName: string, operationType?: string) => Promise<T>;

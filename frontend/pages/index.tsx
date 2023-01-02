@@ -6,7 +6,7 @@ import React from 'react';
 import {graphQlClient} from '../graphql/GClient';
 import {type ProjectEntity} from '../graphql/sdk';
 
-export const getStaticProps: GetStaticProps = async context => {
+export const getStaticProps: GetStaticProps = async () => {
 	const response = await graphQlClient.getProjects();
 
 	const projects = response.projects!.data as ProjectEntity[];
