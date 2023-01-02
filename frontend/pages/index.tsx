@@ -1,18 +1,15 @@
 import Head from 'next/head';
 import {type GetStaticProps} from 'next';
-import {apolloClient} from '../contexts/ApolloClient';
-import {type Project} from '../types/Project';
 import {Sidebar} from '../components/Sidebar';
-import {getProjects} from '../queries/Strapi';
 import {ProjectOverview} from '../components/ProjectOverview';
 import React from 'react';
+import {graphQlClient} from '../graphql/GClient';
+import {type ProjectEntity} from '../graphql/sdk';
 
 export const getStaticProps: GetStaticProps = async context => {
-	const {data: {projects: {data}}} = await apolloClient.query({
-		query: getProjects,
-	});
+	const response = await graphQlClient.getProjects();
 
-	const projects = data.map((el: {attributes: Project}) => el.attributes);
+	const projects = response.projects!.data as ProjectEntity[];
 
 	return {
 		props: {
@@ -21,7 +18,7 @@ export const getStaticProps: GetStaticProps = async context => {
 	};
 };
 
-export default function Home({projects}: {projects: Project[]}) {
+export default function Home({projects}: {projects: ProjectEntity[]}) {
 	return (
 		<>
 			<Head>
@@ -34,7 +31,7 @@ export default function Home({projects}: {projects: Project[]}) {
 
 				<div className='main-body'>
 					<h4>Projects</h4>
-					{projects.map(project => <ProjectOverview key={project.seoUrl} project={project}/>)}
+					{projects.map(project => <ProjectOverview key={project.attributes!.seoUrl} project={project}/>)}
 				</div>
 
 			</main>

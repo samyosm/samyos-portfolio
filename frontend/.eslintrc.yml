@@ -10,9 +10,12 @@ overrides:
     files:
       - '*.ts'
       - '*.tsx'
+    excludedFiles:
+      - 'src/*.ts'
 parserOptions:
   ecmaVersion: latest
   sourceType: module
 plugins:
   - react
-rules: {}
+rules: {
+}

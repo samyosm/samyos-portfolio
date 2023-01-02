@@ -6,10 +6,12 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "codegen": "graphql-codegen --config codegen.yml"
   },
   "dependencies": {
     "@apollo/client": "^3.7.3",
+    "@graphql-codegen/typescript-graphql-request": "^4.5.8",
     "@next/font": "13.1.1",
     "@tailwindcss/line-clamp": "^0.4.2",
     "@types/node": "18.11.18",
@@ -27,9 +29,13 @@
     "react-if": "^4.1.4",
     "react-markdown": "^8.0.4",
     "tailwind-nord": "^1.2.0",
-    "typescript": ">=4.4"
+    "typescript": "^4.9.4",
+    "urql": "^3.0.3"
   },
   "devDependencies": {
+    "@graphql-codegen/cli": "2.16.2",
+    "@graphql-codegen/client-preset": "1.2.4",
+    "@graphql-codegen/typescript-react-apollo": "^3.3.7",
     "@typescript-eslint/eslint-plugin": ">=5.43.0",
     "@typescript-eslint/parser": ">=5.43.0",
     "autoprefixer": "^10.4.13",

@@ -1,25 +1,25 @@
 // @flow
 import * as React from 'react';
-import {type Project} from '../../types/Project';
 import {type GetStaticPaths, type GetStaticProps} from 'next';
-import {apolloClient} from '../../contexts/ApolloClient';
-import {getProject, getProjectUrls} from '../../queries/Strapi';
 import Head from 'next/head';
 import {Sidebar} from '../../components/Sidebar';
 import ReactMarkdown from 'react-markdown';
-import {When} from 'react-if';
-import Image from 'next/image';
+import {ProjectCover} from '../../components/ProjectCover';
+import {graphQlClient} from '../../graphql/GClient';
+import {type ProjectEntity} from '../../graphql/sdk';
 
 type Props = {
-	project: Project;
+	project: ProjectEntity;
 };
 
 export const getStaticPaths: GetStaticPaths = async () => {
-	const {data: {projects: {data}}} = await apolloClient.query({
-		query: getProjectUrls,
-	});
+	const response = await graphQlClient.getProjectUrls();
 
-	const paths = data.map((el: any) => ({params: {seoUrl: el.attributes.seoUrl}}));
+	const paths = response?.projects?.data.map(el => ({params: {seoUrl: el.attributes?.seoUrl}}));
+
+	if (!paths) {
+		throw new Error('No paths');
+	}
 
 	return {
 		paths,
@@ -28,50 +28,39 @@ export const getStaticPaths: GetStaticPaths = async () => {
 };
 
 export const getStaticProps: GetStaticProps<Props> = async context => {
-	if (!context.params) {
-		return {props: {} as Props};
-	} // TODO: Not good practice
-
-	const {data: {projects: {data}}} = await apolloClient.query({
-		query: getProject,
-		variables: {
-			seoUrl: context.params.seoUrl,
-		},
+	const response = await graphQlClient.getProject({
+		seoUrl: context.params!.seoUrl as string,
 	});
+
+	const project = response.projects!.data[0] as ProjectEntity;
+
+	if (!project) {
+		throw new Error('No project');
+	}
+
 	return {
 		props: {
-			project: data[0].attributes,
+			project,
 		},
 	};
 };
 
-const ProjectPage = ({project}: Props) => {
-	const imageSrc = 'http://localhost:1337' + project.cover?.data?.attributes.url;
-	return (
-		<>
-			<Head>
-				<title>{project.title}</title>
-			</Head>
-			<main className='main'>
-				<Sidebar/>
-				<div className='main-body'>
-					<h1>{project.title}</h1>
-					<When condition={project.cover?.data !== null}>
-						<Image
-							alt={project.title}
-							src={imageSrc}
-							loader={() => imageSrc}
-							width='1280'
-							height='720'
-						/>
-					</When>
-					<ReactMarkdown>
-						{project.details}
-					</ReactMarkdown>
-				</div>
-			</main>
-		</>
-	);
-};
+const ProjectPage = ({project}: Props) => (
+	<>
+		<Head>
+			<title>{project.attributes!.title}</title>
+		</Head>
+		<main className='main'>
+			<Sidebar/>
+			<div className='main-body'>
+				<h1>{project.attributes!.title}</h1>
+				<ProjectCover project={project}/>
+				<ReactMarkdown>
+					{project.attributes!.details}
+				</ReactMarkdown>
+			</div>
+		</main>
+	</>
+);
 
 export default ProjectPage;

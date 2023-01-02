@@ -1,0 +1,49 @@
+query getProject($seoUrl: String!) {
+    projects(filters: { seoUrl: { eq: $seoUrl}}) {
+        data {
+            attributes {
+                seoUrl,
+                title,
+                details,
+                cover {
+                    data {
+                        attributes {
+                            url
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+
+query getProjectUrls {
+    projects {
+        data {
+            attributes {
+                seoUrl
+            }
+        }
+    }
+}
+
+query getProjects {
+    projects {
+        data {
+            id,
+            attributes {
+                title,
+                details,
+                seoUrl,
+                overview,
+                cover {
+                    data {
+                        attributes {
+                            url
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
